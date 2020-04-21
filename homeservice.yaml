@@ -1,0 +1,44 @@
+##################################################################################################
+# home application
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: home
+  labels:
+    app: home
+    service: home
+spec:
+  ports:
+  - port: 8080
+    name: "home"
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: home
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home
+  labels:
+    app: home
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home
+  template:
+    metadata:
+      labels:
+        app: home
+    spec:
+      containers:
+      - name: home
+        image: gcr.io/root-sanctuary-274210/home:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol:  TCP
+---

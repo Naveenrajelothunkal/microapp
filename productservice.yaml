@@ -1,0 +1,44 @@
+##################################################################################################
+# product application
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: product
+  labels:
+    app: product
+    service: product
+spec:
+  ports:
+  - port: 8080
+    name: "product"
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: product
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product
+  labels:
+    app: product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      containers:
+      - name: product
+        image: gcr.io/root-sanctuary-274210/productnew:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---

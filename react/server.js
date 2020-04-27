@@ -22,11 +22,11 @@ app.post('/api/world', (req, res) => {
 app.get('/test', function(req, res) {
   res.sendFile(path.join(__dirname + '/test.html'));
 });
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
   // Handle React routing, return all requests to React app
-  app.get('/react', function(req, res) {
-    app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('/*', function(req, res) {
+    
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 
